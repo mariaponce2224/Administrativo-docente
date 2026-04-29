@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Terminal Docente</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="stylesheet" href="css/styles.css">
+
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="welcome-text">
+                <a href="dashboard-supervisora.html" style="text-decoration: none; color: var(--secondary-color); font-size: 0.875rem;">← Volver al Dashboard</a>
+                <h1 style="margin-top: 0.5rem">Control de Inventario Dinámico</h1>
+                <p>Stock global y asignaciones por escuela</p>
+            </div>
+            <button class="btn btn-primary">+ Agregar Material</button>
+        </header>
+
+        <section class="section-card">
+            <div class="section-header">
+                <h2>Stock Central</h2>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Categoría</th>
+                            <th>Stock Total</th>
+                            <th>Alerta Mínima</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Acuarelas Prof. (Set x12)</td>
+                            <td>Consumibles</td>
+                            <td>45</td>
+                            <td>20</td>
+                            <td><span class="badge badge-done">Óptimo</span></td>
+                            <td><button class="btn btn-ghost">Editar</button></td>
+                        </tr>
+                        <tr>
+                            <td>Pinceles Sintéticos (Set)</td>
+                            <td>Herramientas</td>
+                            <td>8</td>
+                            <td>15</td>
+                            <td><span class="badge badge-urgent">Stock Bajo</span></td>
+                            <td><button class="btn btn-ghost">Reponer</button></td>
+                        </tr>
+                        <tr>
+                            <td>Papel Acuarela 300g</td>
+                            <td>Soportes</td>
+                            <td>200</td>
+                            <td>50</td>
+                            <td><span class="badge badge-done">Óptimo</span></td>
+                            <td><button class="btn btn-ghost">Editar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-header">
+                <h2>Asignación por Establecimiento</h2>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Escuela</th>
+                            <th>Último Pedido</th>
+                            <th>Materiales Asignados</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Escuela N° 12</td>
+                            <td>15/04/2026</td>
+                            <td>Acuarelas (10), Papel (50)</td>
+                            <td><span class="badge badge-done">Abastecida</span></td>
+                        </tr>
+                        <tr>
+                            <td>Escuela N° 5</td>
+                            <td>Hoy</td>
+                            <td>Pinceles (5), Acuarelas (5)</td>
+                            <td><span class="badge badge-pending">En Envío</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

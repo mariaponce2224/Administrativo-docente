@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Docente - Terminal Docente</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="js/app.js"></script>
+
+    <style>
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background: #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+        }
+        .upload-zone {
+            border: 2px dashed var(--border-color);
+            padding: 3rem;
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #fbfcfd;
+        }
+        .upload-zone:hover {
+            border-color: var(--primary-color);
+            background: #f0f7ff;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: left;
+        }
+        input, select, textarea {
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="welcome-text">
+                <h1>Hola, Marta</h1>
+                <p>Docente de Artes Visuales - Distrito IV</p>
+            </div>
+            <button class="btn btn-ghost" onclick="window.location.href='index.html'">Cerrar Sesión</button>
+        </header>
+
+        <section class="profile-section">
+            <div class="avatar-circle"><i data-lucide="user" size="40"></i></div>
+            <div>
+                <h2 style="margin-bottom: 0.25rem">Marta Rodríguez</h2>
+                <p style="color: var(--secondary-color); font-size: 0.875rem">DNI: 30.123.456 | Antigüedad: 12 años | Puntaje: 45.5</p>
+                <p style="font-size: 0.875rem; font-weight: 600; color: var(--primary-color); margin-top: 0.5rem">Escuelas: N° 12, N° 5</p>
+            </div>
+        </section>
+
+        <div class="stats-grid" style="grid-template-columns: 2fr 1fr;">
+            <!-- Nueva Solicitud -->
+            <div class="card" style="text-align: center;">
+                <h3 style="margin-bottom: 1.5rem; text-align: left;">Carga de Licencia / Baja</h3>
+                <div class="upload-zone" id="drop-zone">
+                    <i data-lucide="upload-cloud" size="48" style="color: var(--primary-color); margin-bottom: 1rem"></i>
+                    <p style="font-weight: 600">Arrastra aquí tu certificado o haz clic para subir</p>
+                    <p style="font-size: 0.75rem; color: var(--secondary-color); margin-top: 0.5rem">PDF, JPG o PNG (máx. 5MB)</p>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Tipo de Trámite</label>
+                        <select>
+                            <option>Licencia Médica</option>
+                            <option>Baja por Cese</option>
+                            <option>Toma de Posesión</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Escuela</label>
+                        <select>
+                            <option>Escuela N° 12</option>
+                            <option>Escuela N° 5</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 2rem; width: 100%">Enviar Trámite a Supervisión</button>
+            </div>
+
+            <!-- Pedido de Materiales Rápido -->
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem">Pedido de Materiales</h3>
+                <div class="input-group" style="margin-bottom: 1rem">
+                    <label>Artículo</label>
+                    <input type="text" placeholder="Ej: Pinceles N° 4">
+                </div>
+                <div class="input-group" style="margin-bottom: 1.5rem">
+                    <label>Cantidad</label>
+                    <input type="number" value="1">
+                </div>
+                <button class="btn btn-primary" style="width: 100%">Solicitar</button>
+            </div>
+        </div>
+
+        <!-- Mis Trámites -->
+        <section class="section-card">
+            <div class="section-header">
+                <h2>Mis Trámites Recientes</h2>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Trámite</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Licencia Médica (48h)</td>
+                            <td>Hoy</td>
+                            <td><span class="badge badge-pending">En Revisión</span></td>
+                            <td>Esperando validación de Supervisora</td>
+                        </tr>
+                        <tr>
+                            <td>Pedido de Acuarelas (Exc. 12)</td>
+                            <td>20/04/2026</td>
+                            <td><span class="badge badge-done">Entregado</span></td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

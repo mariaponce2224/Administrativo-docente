@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Supervisora - Terminal Docente</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <nav style="display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+            <a href="dashboard-supervisora.html" style="text-decoration: none; color: var(--primary-color); font-weight: 700;">Dashboard</a>
+            <a href="repositorio-digital.html" style="text-decoration: none; color: var(--secondary-color);">Repositorio Digital</a>
+            <a href="inventario.html" style="text-decoration: none; color: var(--secondary-color);">Stock e Inventario</a>
+            <a href="consultas.html" style="text-decoration: none; color: var(--secondary-color);">Consultas</a>
+        </nav>
+        <header>
+            <div class="welcome-text">
+                <h1>Panel de Supervisión</h1>
+                <p>Ed. Plástica - Gestión Administrativa</p>
+            </div>
+            <div class="date-display" id="current-date"></div>
+        </header>
+
+        <!-- Métricas Rápidas -->
+        <main class="stats-grid">
+            <div class="card">
+                <div class="card-header">
+                    <span>Trámites Pendientes</span>
+                    <i data-lucide="clock"></i>
+                </div>
+                <div class="card-value">12</div>
+                <div class="card-footer" style="color: var(--warning)">+3 en las últimas 24h</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span>Bajas Recientes</span>
+                    <i data-lucide="alert-circle"></i>
+                </div>
+                <div class="card-value">4</div>
+                <div class="card-footer">Requiere pedido de suplente</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span>Docentes Activos</span>
+                    <i data-lucide="users"></i>
+                </div>
+                <div class="card-value">142</div>
+                <div class="card-footer">En 24 establecimientos</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span>Stock Crítico</span>
+                    <i data-lucide="package"></i>
+                </div>
+                <div class="card-value">5</div>
+                <div class="card-footer" style="color: var(--danger)">Alerta de reposición</div>
+            </div>
+        </main>
+
+        <!-- Alertas y Trámites -->
+        <section class="section-card">
+            <div class="section-header">
+                <h2>Alertas y Trámites Recientes</h2>
+                <button class="btn btn-primary" onclick="UI.openModal()">+ Nuevo Trámite</button>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Docente</th>
+                            <th>Escuela</th>
+                            <th>Trámite</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tramites-table-body">
+                        <!-- Rendered by app.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Inventario Rápido -->
+        <section class="section-card">
+            <div class="section-header">
+                <h2>Stock por Establecimiento</h2>
+            </div>
+            <div style="padding: 1.5rem">
+                <div style="margin-bottom: 1rem">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem">
+                        <span style="font-weight: 600">Escuela N° 12</span>
+                        <span>85%</span>
+                    </div>
+                    <div style="height: 8px; background: #e2e8f0; border-radius: 4px">
+                        <div style="width: 85%; height: 100%; background: var(--success); border-radius: 4px"></div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem">
+                        <span style="font-weight: 600">Escuela N° 5</span>
+                        <span>30%</span>
+                    </div>
+                    <div style="height: 8px; background: #e2e8f0; border-radius: 4px">
+                        <div style="width: 30%; height: 100%; background: var(--warning); border-radius: 4px"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal para Nuevo Trámite -->
+    <div class="modal-overlay" id="modal-nuevo-tramite">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Trámite</h3>
+                <button class="btn btn-ghost" onclick="UI.closeModal()"><i data-lucide="x"></i></button>
+            </div>
+            <form id="form-tramite">
+                <div class="form-group">
+                    <label>Docente</label>
+                    <input type="text" name="docente" required>
+                </div>
+                <div class="form-group">
+                    <label>Escuela</label>
+                    <input type="text" name="escuela" required>
+                </div>
+                <div class="form-group">
+                    <label>Trámite</label>
+                    <select name="tramite">
+                        <option>Licencia Médica</option>
+                        <option>Baja por Cese</option>
+                        <option>Toma de Posesión</option>
+                        <option>Stock de Insumos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Urgencia</label>
+                    <select name="estado">
+                        <option value="Pending">Pendiente</option>
+                        <option value="Urgent">Urgente</option>
+                        <option value="Done">Completado</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem">Guardar Trámite</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/pdf-logic.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        const UI = {
+            openModal() {
+                document.getElementById('modal-nuevo-tramite').style.display = 'flex';
+            },
+            closeModal() {
+                document.getElementById('modal-nuevo-tramite').style.display = 'none';
+            }
+        };
+
+        document.getElementById('form-tramite').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            data.fecha = 'Hoy, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            AppData.addTramite(data);
+            UI.closeModal();
+            e.target.reset();
+        });
+
+        // Initialize UI
+        lucide.createIcons();
+        document.getElementById('current-date').innerText = new Intl.DateTimeFormat('es-ES', { 
+            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
+        }).format(new Date());
+    </script>
+</body>
+</html>
+
+</html>

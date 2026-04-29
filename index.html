@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Terminal Docente</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        .logo-box {
+            background: var(--primary-color);
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto 1.5rem;
+        }
+        .form-group {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            transition: 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .btn-full { width: 100%; padding: 0.875rem; margin-top: 1rem; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="card login-card">
+        <div class="logo-box">
+            <i data-lucide="terminal" size="32"></i>
+        </div>
+        <h2 style="margin-bottom: 0.5rem">Terminal Docente</h2>
+        <p style="color: var(--secondary-color); font-size: 0.875rem; margin-bottom: 2rem">Ingresa tus credenciales para continuar</p>
+        
+        <form action="dashboard-supervisora.html">
+            <div class="form-group">
+                <label for="dni">DNI / Usuario</label>
+                <input type="text" id="dni" placeholder="Ej: 30123456" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+        </form>
+
+        <p style="margin-top: 2rem; font-size: 0.75rem; color: var(--secondary-color)">
+            Supervisión de Educación Plástica
+        </p>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado'))
+                    .catch(err => console.log('Error al registrar Service Worker', err));
+            });
+        }
+    </script>
+
+</body>
+</html>

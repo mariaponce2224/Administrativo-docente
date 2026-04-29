@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositorio Digital - Terminal Docente</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+        .doc-preview {
+            width: 40px;
+            height: 40px;
+            background: #f1f5f9;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="welcome-text">
+                <a href="dashboard-supervisora.html" style="text-decoration: none; color: var(--secondary-color); font-size: 0.875rem;">← Volver al Dashboard</a>
+                <h1 style="margin-top: 0.5rem">Repositorio Digital: Toma de Posesión</h1>
+                <p>Validación de documentación de nuevo personal</p>
+            </div>
+            <div class="stats-mini" style="display: flex; gap: 2rem;">
+                <div style="text-align: right;">
+                    <span style="display: block; font-size: 0.75rem; color: var(--secondary-color);">PENDIENTES</span>
+                    <span style="font-weight: 700; font-size: 1.25rem;">8</span>
+                </div>
+                <div style="text-align: right;">
+                    <span style="display: block; font-size: 0.75rem; color: var(--secondary-color);">OBSERVADOS</span>
+                    <span style="font-weight: 700; font-size: 1.25rem; color: var(--warning);">2</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="filter-bar">
+            <input type="text" placeholder="Buscar por nombre o DNI..." style="flex: 2;">
+            <select style="flex: 1;">
+                <option>Todos los estados</option>
+                <option>Pendiente</option>
+                <option>Validado</option>
+                <option>Observado</option>
+            </select>
+        </div>
+
+        <section class="section-card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Personal</th>
+                            <th>DNI</th>
+                            <th>Documentación</th>
+                            <th>Fecha Carga</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600;">Laura Scmidt</div>
+                                <div style="font-size: 0.75rem; color: var(--secondary-color);">Prof. Plástica</div>
+                            </td>
+                            <td>34.555.222</td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <div class="doc-preview" title="DNI"><i data-lucide="file-text" size="18"></i></div>
+                                    <div class="doc-preview" title="Título"><i data-lucide="graduation-cap" size="18"></i></div>
+                                    <div class="doc-preview" title="Acta"><i data-lucide="file-signature" size="18"></i></div>
+                                </div>
+                            </td>
+                            <td>27/04/2026</td>
+                            <td><span class="badge badge-pending">Pendiente</span></td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Validar</button>
+                                    <button class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; color: var(--danger);">Observar</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600;">Roberto Gómez</div>
+                                <div style="font-size: 0.75rem; color: var(--secondary-color);">Suplente</div>
+                            </td>
+                            <td>28.111.999</td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <div class="doc-preview" title="DNI"><i data-lucide="file-text" size="18"></i></div>
+                                </div>
+                            </td>
+                            <td>25/04/2026</td>
+                            <td><span class="badge badge-urgent" style="background: #ffedd5; color: #9a3412;">Observado</span></td>
+                            <td>
+                                <button class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Ver Detalle</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
