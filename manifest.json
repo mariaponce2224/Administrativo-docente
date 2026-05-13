@@ -6,6 +6,7 @@
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#2563eb",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
@@ -17,6 +18,18 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "./dashboard-supervisora.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Inventario",
+      "url": "./inventario.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

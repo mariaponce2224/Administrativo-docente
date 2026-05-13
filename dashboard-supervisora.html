@@ -19,19 +19,26 @@
 </head>
 <body>
     <div class="container">
-        <nav style="display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+        <nav style="display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; align-items: center;">
             <a href="dashboard-supervisora.html" style="text-decoration: none; color: var(--primary-color); font-weight: 700;">Dashboard</a>
             <a href="repositorio-digital.html" style="text-decoration: none; color: var(--secondary-color);">Repositorio Digital</a>
             <a href="inventario.html" style="text-decoration: none; color: var(--secondary-color);">Stock e Inventario</a>
             <a href="consultas.html" style="text-decoration: none; color: var(--secondary-color);">Consultas</a>
+            <button id="install-app-btn" class="btn btn-primary" style="margin-left: auto; display: none; align-items: center; gap: 0.5rem;" onclick="installApp()">
+                <i data-lucide="download"></i> Descargar App
+            </button>
         </nav>
         <header>
-            <div class="welcome-text">
-                <h1>Panel de Supervisión</h1>
-                <p>Ed. Plástica - Gestión Administrativa</p>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="icon-192.png" alt="Logo" style="width: 50px; height: 50px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                <div class="welcome-text">
+                    <h1>Panel de Supervisión</h1>
+                    <p>Ed. Plástica - Gestión Administrativa</p>
+                </div>
             </div>
             <div class="date-display" id="current-date"></div>
         </header>
+
 
         <!-- Métricas Rápidas -->
         <main class="stats-grid">
@@ -40,15 +47,15 @@
                     <span>Trámites Pendientes</span>
                     <i data-lucide="clock"></i>
                 </div>
-                <div class="card-value">12</div>
-                <div class="card-footer" style="color: var(--warning)">+3 en las últimas 24h</div>
+                <div class="card-value" id="val-pendientes">--</div>
+                <div class="card-footer" style="color: var(--warning)">Actualizado</div>
             </div>
             <div class="card">
                 <div class="card-header">
                     <span>Bajas Recientes</span>
                     <i data-lucide="alert-circle"></i>
                 </div>
-                <div class="card-value">4</div>
+                <div class="card-value" id="val-bajas">--</div>
                 <div class="card-footer">Requiere pedido de suplente</div>
             </div>
             <div class="card">
@@ -56,7 +63,7 @@
                     <span>Docentes Activos</span>
                     <i data-lucide="users"></i>
                 </div>
-                <div class="card-value">142</div>
+                <div class="card-value" id="val-docentes">--</div>
                 <div class="card-footer">En 24 establecimientos</div>
             </div>
             <div class="card">
@@ -64,10 +71,11 @@
                     <span>Stock Crítico</span>
                     <i data-lucide="package"></i>
                 </div>
-                <div class="card-value">5</div>
+                <div class="card-value" id="val-stock">--</div>
                 <div class="card-footer" style="color: var(--danger)">Alerta de reposición</div>
             </div>
         </main>
+
 
         <!-- Alertas y Trámites -->
         <section class="section-card">

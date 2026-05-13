@@ -70,28 +70,121 @@
         <div class="logo-box">
             <i data-lucide="terminal" size="32"></i>
         </div>
-        <h2 style="margin-bottom: 0.5rem">Terminal Docente</h2>
-        <p style="color: var(--secondary-color); font-size: 0.875rem; margin-bottom: 2rem">Ingresa tus credenciales para continuar</p>
-        
-        <form action="dashboard-supervisora.html">
-            <div class="form-group">
-                <label for="dni">DNI / Usuario</label>
-                <input type="text" id="dni" placeholder="Ej: 30123456" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" placeholder="••••••••" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
-        </form>
+        <div id="login-section">
+            <h2 style="margin-bottom: 0.5rem">Terminal Docente</h2>
+            <p style="color: var(--secondary-color); font-size: 0.875rem; margin-bottom: 2rem">Ingresa tus credenciales para continuar</p>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-dni">DNI / Usuario</label>
+                    <input type="text" id="login-dni" placeholder="Ej: 30123456" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.875rem;">
+                ¿No tienes cuenta? <a href="#" onclick="toggleAuth(event)" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Regístrate aquí</a>
+            </p>
+        </div>
+
+        <div id="register-section" style="display: none;">
+            <h2 style="margin-bottom: 0.5rem">Crear Cuenta</h2>
+            <p style="color: var(--secondary-color); font-size: 0.875rem; margin-bottom: 2rem">Completa tus datos para registrarte</p>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="reg-nombre">Nombre Completo</label>
+                    <input type="text" id="reg-nombre" placeholder="Ej: María Ponce" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-dni">DNI / Usuario</label>
+                    <input type="text" id="reg-dni" placeholder="Ej: 30123456" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Contraseña</label>
+                    <input type="password" id="reg-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Crear Usuario</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.875rem;">
+                ¿Ya tienes cuenta? <a href="#" onclick="toggleAuth(event)" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Inicia sesión</a>
+            </p>
+        </div>
+
 
         <p style="margin-top: 2rem; font-size: 0.75rem; color: var(--secondary-color)">
             Supervisión de Educación Plástica
         </p>
     </div>
 
+    <!-- Banner de Descarga -->
+    <div id="download-banner" style="position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 1rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; gap: 1.5rem; box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.05); z-index: 1000;">
+        <img src="icon-192.png" style="width: 40px; height: 40px; border-radius: 8px;">
+        <div style="text-align: left;">
+            <p style="font-weight: 600; font-size: 0.9rem;">Lleva la Terminal en tu móvil</p>
+            <p style="font-size: 0.75rem; color: var(--secondary-color);">Instálala para usarla sin conexión</p>
+        </div>
+        <button id="install-app-btn" class="btn btn-primary" onclick="installApp()" style="display: none;">Instalar App</button>
+        <p id="ios-info" style="display: none; font-size: 0.7rem; color: var(--secondary-color); max-width: 200px;">
+            En iPhone: Pulsa <i data-lucide="share" style="width: 14px; height: 14px;"></i> y luego "Añadir a pantalla de inicio"
+        </p>
+    </div>
+
+    <script src="js/app.js"></script>
     <script>
         lucide.createIcons();
+
+        function toggleAuth(e) {
+            e.preventDefault();
+            const loginSection = document.getElementById('login-section');
+            const registerSection = document.getElementById('register-section');
+            if (loginSection.style.display === 'none') {
+                loginSection.style.display = 'block';
+                registerSection.style.display = 'none';
+            } else {
+                loginSection.style.display = 'none';
+                registerSection.style.display = 'block';
+            }
+        }
+
+        // Manejo de Registro
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('reg-nombre').value;
+            const dni = document.getElementById('reg-dni').value;
+            const password = document.getElementById('reg-password').value;
+
+            const res = AppData.register(dni, password, nombre);
+            if (res.success) {
+                alert('¡Registro exitoso! Ya puedes iniciar sesión.');
+                toggleAuth(e);
+            } else {
+                alert(res.msg);
+            }
+        });
+
+        // Manejo de Login
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const dni = document.getElementById('login-dni').value;
+            const password = document.getElementById('login-password').value;
+
+            const res = AppData.login(dni, password);
+            if (res.success) {
+                window.location.href = 'dashboard-supervisora.html';
+            } else {
+                alert(res.msg);
+            }
+        });
+
+        // Mostrar info de iOS si es necesario
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS && !(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone)) {
+            document.getElementById('ios-info').style.display = 'block';
+        }
 
         // Register Service Worker
         if ('serviceWorker' in navigator) {
@@ -102,6 +195,8 @@
             });
         }
     </script>
+
+
 
 </body>
 </html>
