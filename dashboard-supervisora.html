@@ -192,7 +192,7 @@
             const data = Object.fromEntries(formData.entries());
             data.fecha = 'Hoy, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
-            AppData.addTramite(data);
+            AppData.addItem('tramites', data);
             UI.closeModal();
             e.target.reset();
         });

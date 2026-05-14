@@ -79,7 +79,25 @@ const AppData = {
             localStorage.setItem('currentUser', JSON.stringify(user));
             return { success: true };
         }
-        return { success: false, msg: 'Credenciales inválidas' };
+        return { success: false, msg: 'DNI o contraseña incorrectos. Verifica tus credenciales.' };
+    },
+
+    register(dni, password, nombre) {
+        const usuarios = this.getData('usuarios');
+        if (usuarios.find(u => u.dni === dni)) {
+            return { success: false, msg: 'El usuario ya existe con este DNI.' };
+        }
+        
+        const newUser = { 
+            dni, 
+            password, 
+            nombre,
+            rol: dni === 'admin' ? 'supervisora' : 'docente' // Por ahora basado en DNI admin
+        };
+        
+        usuarios.push(newUser);
+        this.saveData('usuarios', usuarios);
+        return { success: true };
     },
 
     logout() {
