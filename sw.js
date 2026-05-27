@@ -1,4 +1,4 @@
-const CACHE_NAME = 'terminal-docente-v2';
+const CACHE_NAME = 'terminal-docente-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -27,7 +27,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activación: Limpiar caches antiguos
+// Activación: Limpiar caches antiguos e informar inmediatamente a los clientes
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -40,11 +40,26 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch: Estrategia Cache First con fallback a Red
+// Fetch: Estrategia Network First con fallback a Cache
 self.addEventListener('fetch', (event) => {
+  // Solo manejar peticiones GET a recursos internos o URLs conocidas
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
+    fetch(event.request)
+      .then((response) => {
+        // Si obtenemos una respuesta válida de la red, la guardamos en caché
+        if (response && response.status === 200) {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return response;
+      })
+      .catch(() => {
+        // Si falla la red (offline), intentamos servir desde la caché
+        return caches.match(event.request);
+      })
   );
 });

@@ -10,14 +10,50 @@ const AppData = {
         this.loadOrCreate('consultas', this.defaults.consultas);
         this.loadOrCreate('usuarios', this.defaults.usuarios);
         this.loadOrCreate('documentos', this.defaults.documentos);
+        this.checkSession();
         this.renderAll();
         this.setupGlobalEdits();
         this.checkPWA();
     },
 
+    checkSession() {
+        const path = window.location.pathname;
+        const isLoginPage = path.endsWith('index.html') || path === '/' || path.endsWith('/');
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (!isLoginPage) {
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Control de acceso por rol
+            const isDocentePage = path.endsWith('dashboard-docente.html');
+            const isSupervisoraPage = path.endsWith('dashboard-supervisora.html') || 
+                                      path.endsWith('inventario.html') || 
+                                      path.endsWith('consultas.html') || 
+                                      path.endsWith('repositorio-digital.html');
+
+            if (currentUser.rol === 'docente' && isSupervisoraPage) {
+                window.location.href = 'dashboard-docente.html';
+            } else if (currentUser.rol === 'supervisora' && isDocentePage) {
+                window.location.href = 'dashboard-supervisora.html';
+            }
+        } else {
+            // Si ya está logueado e ingresa al login, redirigir al panel correspondiente
+            if (currentUser) {
+                if (currentUser.rol === 'supervisora') {
+                    window.location.href = 'dashboard-supervisora.html';
+                } else {
+                    window.location.href = 'dashboard-docente.html';
+                }
+            }
+        }
+    },
+
     defaults: {
         usuarios: [
-            { dni: 'admin', password: 'admin', nombre: 'Administrador' }
+            { dni: 'admin', password: 'admin', nombre: 'Administrador', rol: 'supervisora' }
         ],
         tramites: [
             { id: 1, docente: 'Marta Rodríguez', escuela: 'Escuela N° 12', tramite: 'Licencia Médica', fecha: 'Hoy, 09:12', estado: 'Pendiente' },
@@ -76,13 +112,17 @@ const AppData = {
         const usuarios = this.getData('usuarios');
         const user = usuarios.find(u => u.dni === dni && u.password === password);
         if (user) {
+            // Asegurar que tenga rol
+            if (!user.rol) {
+                user.rol = user.dni === 'admin' ? 'supervisora' : 'docente';
+            }
             localStorage.setItem('currentUser', JSON.stringify(user));
-            return { success: true };
+            return { success: true, user };
         }
         return { success: false, msg: 'DNI o contraseña incorrectos. Verifica tus credenciales.' };
     },
 
-    register(dni, password, nombre) {
+    register(dni, password, nombre, rol) {
         const usuarios = this.getData('usuarios');
         if (usuarios.find(u => u.dni === dni)) {
             return { success: false, msg: 'El usuario ya existe con este DNI.' };
@@ -92,7 +132,7 @@ const AppData = {
             dni, 
             password, 
             nombre,
-            rol: dni === 'admin' ? 'supervisora' : 'docente' // Por ahora basado en DNI admin
+            rol: rol || (dni === 'admin' ? 'supervisora' : 'docente')
         };
         
         usuarios.push(newUser);

@@ -72,17 +72,17 @@
     <div class="container">
         <header>
             <div class="welcome-text">
-                <h1>Hola, Marta</h1>
+                <h1 id="docente-welcome">Hola, Marta</h1>
                 <p>Docente de Artes Visuales - Distrito IV</p>
             </div>
-            <button class="btn btn-ghost" onclick="window.location.href='index.html'">Cerrar Sesión</button>
+            <button class="btn btn-ghost" onclick="AppData.logout()">Cerrar Sesión</button>
         </header>
 
         <section class="profile-section">
             <div class="avatar-circle"><i data-lucide="user" size="40"></i></div>
             <div>
-                <h2 style="margin-bottom: 0.25rem">Marta Rodríguez</h2>
-                <p style="color: var(--secondary-color); font-size: 0.875rem">DNI: 30.123.456 | Antigüedad: 12 años | Puntaje: 45.5</p>
+                <h2 id="docente-profile-name" style="margin-bottom: 0.25rem">Marta Rodríguez</h2>
+                <p style="color: var(--secondary-color); font-size: 0.875rem">DNI: <span id="docente-profile-dni">30.123.456</span> | Antigüedad: 12 años | Puntaje: 45.5</p>
                 <p style="font-size: 0.875rem; font-weight: 600; color: var(--primary-color); margin-top: 0.5rem">Escuelas: N° 12, N° 5</p>
             </div>
         </section>
@@ -169,6 +169,15 @@
 
     <script>
         lucide.createIcons();
+
+        // Cargar datos dinámicos del docente
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+            const firstName = currentUser.nombre ? currentUser.nombre.split(' ')[0] : 'Docente';
+            document.getElementById('docente-welcome').innerText = `Hola, ${firstName}`;
+            document.getElementById('docente-profile-name').innerText = currentUser.nombre || 'Docente';
+            document.getElementById('docente-profile-dni').innerText = currentUser.dni || '';
+        }
     </script>
 </body>
 </html>
